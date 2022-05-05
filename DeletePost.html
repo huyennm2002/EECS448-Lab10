@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Post</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            margin: 0px auto;
+            width: 50%;
+        }
+        button {
+            align-items: flex-start;
+            background-color: #fa8816;
+            border-color: #fa8816;
+            border-radius: 20px;
+            border-style: solid;
+            border-width: 1px;
+            color: #ffffff;
+            font-family: -apple-system;
+            font-size: 20px;
+            line-height: 20px;
+            padding: 8px 16px;
+            text-align: center;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+<body>
+    <button style="border-radius: 0px; background-color:grey;"><a style="color: white;" href="AdminHome.html">Admin Home</a></button> 
+    <h1>Exercise 7: Delete User Posts</h1>
+    <table>
+        <colgroup>
+            <col span="1" style="width: 15%;">
+            <col span="1" style="width: 70%;">
+            <col span="1" style="width: 15%;">
+         </colgroup>
+        <thead>
+            <tr>
+                <th>Post</th>
+                <th>Author</th>
+                <th>Delete?</th>
+            </tr>
+        </thead>
+        
+        <form action="DeletePost.php" method="POST">
+            <?php
+                $mysqli = new mysqli("mysql.eecs.ku.edu", "m449n496", "Ait3vahs", "m449n496");
+				if ($mysqli->connect_errno) {
+                    printf("Connect failed: %s\n", $mysqli->connect_error);
+                    exit();
+                }
+                
+                $query = "SELECT post_id, content, author_id FROM Posts";
+                if ($result = $mysqli->query($query)) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                            <td>" . $row["content"] . "</td>
+                            <td>". $row["author_id"] . "</td>
+                            <td><input type='checkbox' name='check_list[]' value=\"" . $row["post_id"] . "\"></td>
+                        </tr>";
+                    }
+                    $result->free();
+                }  
+                $mysqli->close();
+            ?>
+            <br> 
+            <button type="submit">Submit</button>
+        </form>
+        
+    </table>
+     
+    <br>
+    
+</body>
+</html>

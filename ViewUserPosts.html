@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>View User Posts</title>
+    <style>
+        .container{
+            width: 20%;
+            font-size: 16px;
+        }
+        button {
+            align-items: flex-start;
+            background-color: #fa8816;
+            border-color: #fa8816;
+            border-radius: 20px;
+            border-style: solid;
+            border-width: 1px;
+            color: #ffffff;
+            font-family: -apple-system;
+            font-size: 20px;
+            line-height: 20px;
+            padding: 8px 16px;
+            text-align: center;
+            margin: 0px auto;
+        }
+        a {
+            text-decoration: none; 
+        }
+    </style>
+</head>
+<body>
+    <button style="border-radius: 0px; background-color:grey;"><a style="color: white;" href="AdminHome.html">Admin Home</a></button> 
+    <h1>Exercise 6: View User Posts</h1>
+    <form action="ViewUserPosts.php" method="POST">
+        <div class="container">
+        <label for="username">Pick a user to view posts</label>
+        <select name="username">
+            <?php
+                $mysqli = new mysqli("mysql.eecs.ku.edu", "m449n496", "Ait3vahs", "m449n496");
+                /* check connection */
+                if ($mysqli->connect_errno) {
+                    printf("Connect failed: %s\n", $mysqli->connect_error);
+                    exit();
+                }
+                echo "connect";
+                $query = "SELECT user_id FROM Users";
+                printf($query);
+                if ($result = $mysqli->query($query)) {
+                    /* fetch associative array */
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value=\"" . $row["user_id"] . "\">" . $row["user_id"] . "</option>";
+                    }
+                    /* free result set */
+                    $result->free();
+                }
+                /* close connection */
+                $mysqli->close();
+            ?>
+        </select>
+        </div>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body> 
+ </html>
+
+
